@@ -53,62 +53,54 @@ gcc -O2 -DVDB_MULTITHREADED test.c -o test -lpthread -lm
 
 #### Database management
 
-**`vdb_database *vdb_create(size_t dimensions, vdb_metric metric)`**
-Creates a new vector database.
-
-**`void vdb_destroy(vdb_database *db)`**
-Frees all resources associated with the database.
-
-**`size_t vdb_count(const vdb_database *db)`**
-Returns the number of vectors in the database.
-
-**`size_t vdb_dimensions(const vdb_database *db)`**
-Returns the dimensionality of vectors.
+| Function | Return Type | Description |
+|-|-|-|
+| `*vdb_create(size_t dimensions, vdb_metric metric)` | `vdb_database` | Creates a new vector database. |
+| `vdb_destroy(vdb_database *db)` | `void` | Frees all resources associated with the database. |
+| `vdb_count(const vdb_database *db)` | `size_t` | Returns the number of vectors in the database. |
+| `vdb_dimensions(const vdb_database *db)` | `size_t` | Returns the dimensionality of vectors. |
 
 #### Vector operations
 
-**`vdb_error vdb_add_vector(vdb_database *db, const float *data, const char *id, void *metadata)`**
-Adds a vector to the database with optional ID and metadata.
-
-**`vdb_error vdb_remove_vector(vdb_database *db, size_t index)`**
-Removes a vector at the specified index.
-
-**`vdb_error vdb_get_vector(const vdb_database \*db, size_t index, float **out_data, char **out_id, void **out_metadata)`\*\*
-Retrieves a vector and its metadata.
+| Function | Return Type | Description |
+|-|-|-|
+| `vdb_add_vector(vdb_database *db, const float *data, const char *id, void *metadata)` | `vdb_error` | Adds a vector to the database with optional ID and metadata. |
+| `vdb_remove_vector(vdb_database *db, size_t index)` | `vdb_error` | Removes a vector at the specified index. |
+| `vdb_get_vector(const vdb_database \*db, size_t index, float **out_data, char **out_id, void **out_metadata)` | `vdb_error` | Retrieves a vector and its metadata. |
 
 #### Search
 
-**`vdb_result_set *vdb_search(const vdb_database *db, const float *query, size_t k)`**
-Performs [k-nearest neighbor](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) search. Returns NULL on error.
-
-**`void vdb_free_result_set(vdb_result_set *result_set)`**
-Frees search results.
+| Function | Return Type | Description |
+|-|-|-|
+| `*vdb_search(const vdb_database *db, const float *query, size_t k)` | `vdb_result_set` | Performs [k-nearest neighbor](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) search. Returns NULL on error. |
+| `vdb_free_result_set(vdb_result_set *result_set)` | `vdb_result_set` | Frees search results. |
 
 #### Persistence
 
-**`vdb_error vdb_save(const vdb_database *db, const char *filename)`**
-Saves the database to disk.
-
-**`vdb_database *vdb_load(const char *filename)`**
-Loads a database from disk.
+| Function | Return Type | Description |
+|-|-|-|
+| `vdb_save(const vdb_database *db, const char *filename)` | `vdb_error` | Saves the database to disk. |
+| `*vdb_load(const char *filename)` | `vdb_database` | Loads a database from disk. |
 
 ### Distance metrics
 
-- `VDB_METRIC_COSINE` - Cosine distance (1 - cosine similarity)
-- `VDB_METRIC_EUCLIDEAN` - Euclidean (L2) distance
-- `VDB_METRIC_DOT_PRODUCT` - Negative dot product
+| Metric | Description |
+|-|-|
+| `VDB_METRIC_COSINE` | Cosine distance (1 - cosine similarity) |
+| `VDB_METRIC_EUCLIDEAN` | Euclidean (L2) distance |
+| `VDB_METRIC_DOT_PRODUCT` | Negative dot product |
 
 ### Error codes
 
-```c
-VDB_OK = 0
-VDB_ERROR_NULL_POINTER = -1
-VDB_ERROR_INVALID_DIMENSIONS = -2
-VDB_ERROR_OUT_OF_MEMORY = -3
-VDB_ERROR_NOT_FOUND = -4
-VDB_ERROR_INVALID_INDEX = -5
-VDB_ERROR_THREAD_FAILURE = -6
-```
+| Error code | Label |
+|-|-|
+| `0` | `VDB_OK` |
+| `-1` | `VDB_ERROR_NULL_POINTER` |
+| `-2` | `VDB_ERROR_INVALID_DIMENSIONS` |
+| `-2` | `VDB_ERROR_OUT_OF_MEMORY` |
+| `-2` | `VDB_ERROR_NOT_FOUND` |
+| `-2` | `VDB_ERROR_INVALID_INDEX` |
+| `-2` | `VDB_ERROR_THREAD_FAILURE` |
 
 ### Custom memory allocators
 
