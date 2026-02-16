@@ -37,6 +37,10 @@
 #define VDB_REALLOC realloc
 #endif
 
+#define VDB_VERSION_MAJOR 0
+#define VDB_VERSION_MINOR 1
+#define VDB_VERSION_PATCH 0
+
 typedef enum {
   VDB_OK = 0,
   VDB_ERROR_NULL_POINTER = -1,
